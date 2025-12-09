@@ -12,6 +12,10 @@ Sin embargo, a causa de algunas fallas fraudulentas encontradas en los premios a
 Se les obligó a pasar por un arduo y muy difícil (MUY DIFÍCIL) trabajo de realizar un **análisis PCA** de las variables que tomamos en consideración para el galardoneo.
 Por lo que no habría problemas con sesgos indeseados…… creo.
 
+Para ello se hicieron 2 scripts, uno titulado "Pre-Analisis PCA" y otro llamado "Analisis PCA". En ella podran encontrar los detalles de cómo se llevaron a cabo estos procesos de análisis.
+- El **"Pre-Analisis PCA.Rmd"** fue la modificación de las bases de datos. Estas bases de datos fueron la mayoría extraídas del Ministerio de Transporte de Japón en su idioma original, por lo que se le hizo una traducción a las variables de interés
+- El **"Analisis PCA.Rmd"** es el script donde se encontrarían los pasos hasta llegar al índice donde se extraería el listado de los premios trenes japoneses.
+
 
 
 Ahora le paso el micrófono a una de los jueces, Francisca.
