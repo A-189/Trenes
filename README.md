@@ -86,7 +86,7 @@ Yo pasé por esa estación y menos mal que no pasé en hora punta o quizás qué
 <br>
 <br>
 
-## MENCIÓN HONROSA
+# MENCIÓN HONROSA
 
 Mención honrosa al tren más todo de la región de Kansai, la región donde estuve viviendo 6 meses y que es la más hermosa de todas (según yo, opinión muy objetiva)
 (y también que al hacer este trabajo me bajó mucho la nostalgia 💔)
