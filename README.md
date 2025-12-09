@@ -1,11 +1,11 @@
-# Bienvenidos a los Premios Trenes Japoneses !!
+# Bienvenidos a los Premios Trenes Japoneses !! 🏆🚂🇯🇵
 👏 👏 👏 👏 👏 👏
 
 Muchas gracias público paciente, después de un sinfín de revuelos hemos llegado al gran esperado GALARDONEO DE TRENES JAPONESES !!!!!!!!!
 
 **En estas premiaciones tenemos dos categorías:**
--	**El tren más todo:** Es el tren que realmente fue el más todo, el que más kilómetros recorrió, el que más plata en pasajes adquirió, el que más gente llevó en sus carros, el tren que más soportó. El tren que realmente uno se pregunta qué sería de los japoneses sin ese tren.
--	**El tren menos todo:** Es el tren que realmente fue el menos todo, el que menos kilómetros recorrió, el que menos plata en pasajes adquirió, el que menos gente llevó en sus carros. El tren que realmente uno se pregunta cómo es que sigue en funcionamiento.
+-	**El tren más todo 👍:** Es el tren que realmente fue el más todo, el que más kilómetros recorrió, el que más plata en pasajes adquirió, el que más gente llevó en sus carros, el tren que más soportó. El tren que realmente uno se pregunta qué sería de los japoneses sin ese tren.
+-	**El tren menos todo 👎:** Es el tren que realmente fue el menos todo, el que menos kilómetros recorrió, el que menos plata en pasajes adquirió, el que menos gente llevó en sus carros. El tren que realmente uno se pregunta cómo es que sigue en funcionamiento.
 
 
 Sin embargo, a causa de algunas fallas fraudulentas encontradas en los premios anteriores, ahora los jueces no estarán sesgados a la hora de estas premiaciones.
@@ -29,11 +29,11 @@ Hola mucho gusto, hoy seré la jueza principal de estos premios. Es todo un hono
 Ahora les presento a continuación…. **LOS PREMIOS TRENES JAPONESES!!!!!!**
 <br>
 <br>
-# Categoría el tren más todo
+# CATEGORÍA EL TREN MÁS TODO 👍
  
 
 
-## TERCER LUGAR:
+## 🥉 TERCER LUGAR:
 
 **京浜急行電鉄本線**
 
@@ -49,7 +49,7 @@ No es de sorprender que los trenes top en este listado sean de la región de Kan
 <br>
 <br>
 
-## SEGUNDO LUGAR:
+## 🥈 SEGUNDO LUGAR:
 
 **東武鉄道伊勢崎線**
 
@@ -63,7 +63,7 @@ Este tren de la privada Tobu Railway comienza de la ciudad de Saitama hasta la c
 <br>
 <br>
 
-## PRIMER LUGAR:
+## 🥇 PRIMER LUGAR:
 
 **小田急電鉄小田原線・江ノ島線**
 
@@ -86,7 +86,7 @@ Yo pasé por esa estación y menos mal que no pasé en hora punta o quizás qué
 <br>
 <br>
 
-# MENCIÓN HONROSA
+# 🏅 MENCIÓN HONROSA
 
 Mención honrosa al tren más todo de la región de Kansai, la región donde estuve viviendo 6 meses y que es la más hermosa de todas (según yo, opinión muy objetiva)
 (y también que al hacer este trabajo me bajó mucho la nostalgia 💔)
@@ -118,7 +118,7 @@ La línea Midosuji es la principal del metro de Osaka, y la verdad, es que es mu
 
 **阪急電鉄京都線**
 
-**Línea de Kioto del ferrocarril Hankyu**
+**Línea de Kyoto del ferrocarril Hankyu**
 
 #19 general, #4 Kansai
 
@@ -141,12 +141,12 @@ Ahora, sin más preámbulo, al tren menos todo 💀
 <br>
 <br>
 
-# EL TREN MENOS TODO
+# CATEGORÍA EL TREN MENOS TODO 👎
 
 (me tuve que saltar trenes del listado porque revisé y eran trenes de carga, no de pasajeros, no sé cómo terminaron en las bases de datos)
 
 
-## TERCER LUGAR:
+## 🥉 TERCER LUGAR:
 
 **仙台空港鉄道**
 
@@ -160,7 +160,7 @@ Este tren se opera en la Línea del Aeropuerto de Sendai en la ciudad de Natori,
 <br>
 <br>
 
-## SEGUNDO LUGAR:
+## 🥈 SEGUNDO LUGAR:
 
 **津軽鉄道**
 
@@ -184,7 +184,7 @@ Y por último, pero no por ello menos todo…. El tren MENOS TODO DE TODOS.
 <br>
 <br>
 
-## PRIMER LUGAR:
+## 🥇 PRIMER LUGAR:
 
 **青函トンネル記念館**
 
@@ -198,7 +198,12 @@ Al principio no entendía bien, lo busqué en la Wikipedia japonesa y resulta qu
 Eso explica mucho, también considerando que el museo se encuentra en Hokkaido, la región más norte de Japón, cercano a Rusia.
 
 <br>
-<br>
-<br>
+
+🚂
+
+🚂
+
+🚂
+
 
 Esto sería todo, ojalá les haya gustado esta premiación que se hizo con tanto esfuerzo y amor por parte de todo el equipo de producción (yo). Denle like y suscríbanse para más contenido así.
