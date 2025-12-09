@@ -1,0 +1,148 @@
+---
+title: "Analisis Pre-PCA"
+author: "A-189"
+date: "2025-12-05"
+output: html_document
+---
+
+# Pre-Análisis PCA
+
+
+## Cargamos las librerías:
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(extrafont)
+library(writexl)
+library(corrr)
+library(corrplot)
+library(ggcorrplot)
+library(FactoMineR)
+library(factoextra)
+library(naniar)
+library(zoo)
+library(ggrepel)
+library(broom)
+library(knitr)
+library(kableExtra)
+library(tidyr)
+```
+
+
+
+# Cargamos las bases de datos:
+
+```{r}
+df_kilometros_y_pasajeros_por_dia <- read_xlsx("[Input] Bases de Datos/KM por Día; Pasajeros por año (en miles); Pasajeros por Día; Pasajeros por KM.xlsx", skip = 6, na=c("N/A", " ")) |>
+  janitor::clean_names() |>
+  slice(1:360) |>
+  na.omit() |>
+  select(nombre, kilometros_por_dia, cantidad_de_pasajeros_al_dia)
+```
+
+```{r}
+df_kilometros <- read_xlsx("[Input] Bases de Datos/Kilometros Tramo.xlsx", skip = 7, na=c("N/A", " ")) |>
+  janitor::clean_names() |>
+  slice(1:382) |>
+  na.omit() |>
+    select(nombre, kilometros_comerciales_para_trenes_con_pasajeros, kilometros_recorridos_por_el_vehiculo_en_su_propia_linea_tren_de_pasajeros, total_tren_de_pasajeros_en_mil_kilometros_28)
+```
+
+```{r}
+df_personas_que_viajan_total <- read_xlsx("[Input] Bases de Datos/Informe de Transporte (Cantidad).xlsx", skip = 6, na=c("N/A", " ")) |>
+  janitor::clean_names() |>
+  slice(1:363) |>
+  select(nombre, personas_que_viajan_regular_en_miles, personas_que_viajan_no_regular_en_miles, personas_que_viajan_en_total) |>
+  na.omit()
+```
+
+```{r}
+df_ingresos_por_pasajeros_total <- read_xlsx("[Input] Bases de Datos/Informe de Transporte (Ingresos).xlsx", , skip = 6, na=c("N/A", " ")) |>
+  janitor::clean_names() |>
+  slice(1:373) |>
+  na.omit() |>
+  select(nombre, region, clasificacion, ingreso_por_transporte_de_pasajeros_regulares_en_miles_de_yenes, ingreso_por_transporte_de_pasajeros_no_regulares_en_miles_de_yenes, ingreso_por_transporte_de_pasajeros_en_total_en_miles_de_yenes, total_de_todos_los_ingresos_en_miles_de_yenes)
+```
+
+```{r}
+df_cantidad_trabajadores_y_salario_promedio_y_total <- read_xlsx("[Input] Bases de Datos/Cantidad y Salarios Trabajadores.xlsx", skip = 7, na=c("N/A", " ")) |>
+  janitor::clean_names() |>
+  slice(1:385) |>
+  na.omit() |>
+  select(nombre, total_anual_en_salario_miles_de_yenes, cuanto_personal_tienen, salario_promedio_por_persona_mensual_estandar)
+```
+
+```{r}
+df_poblacion <- read_xlsx("[Input] Bases de Datos/Censo Poblacional 2020 Japón.xlsx", sheet="Regiones Wikipedia", skip = 3, na=c("N/A", " "))
+
+df_poblacion <- df_poblacion |>
+  janitor::clean_names()
+```
+
+
+
+## Pasamos a variables numéricas las que estaban como character:
+
+
+```{r}
+df_cantidad_trabajadores_y_salario_promedio_y_total$total_anual_en_salario_miles_de_yenes <- as.numeric(df_cantidad_trabajadores_y_salario_promedio_y_total$total_anual_en_salario_miles_de_yenes)
+```
+
+```{r}
+df_cantidad_trabajadores_y_salario_promedio_y_total$cuanto_personal_tienen <- as.numeric(df_cantidad_trabajadores_y_salario_promedio_y_total$cuanto_personal_tienen)
+```
+
+
+```{r}
+df_cantidad_trabajadores_y_salario_promedio_y_total$salario_promedio_por_persona_mensual_estandar <- as.numeric(df_cantidad_trabajadores_y_salario_promedio_y_total$salario_promedio_por_persona_mensual_estandar)
+```
+
+
+```{r}
+df_poblacion$tasa_de_movimiento_de_pasajeros_per_capita_por_ferrocarril_por_region <- as.numeric(df_poblacion$tasa_de_movimiento_de_pasajeros_per_capita_por_ferrocarril_por_region)
+```
+
+```{r}
+df_poblacion$tasa_de_pasajeros_en_tren_comparativa_a_otros_medios_en_porcentaje <- as.numeric(df_poblacion$tasa_de_pasajeros_en_tren_comparativa_a_otros_medios_en_porcentaje)
+```
+
+```{r}
+df_poblacion$densidad_poblacional <- as.numeric(df_poblacion$densidad_poblacional)
+```
+
+
+
+
+## Uno la parte de la población por región con su respectivo tren:
+
+```{r}
+df_trenes_y_poblacion <- df_ingresos_por_pasajeros_total |>
+  left_join(df_poblacion, by = "region") |>
+  na.omit()
+```
+
+
+
+
+## Ahora juntamos las bases de interés en uno:
+
+```{r}
+df_trenes_completo <-
+  left_join(df_cantidad_trabajadores_y_salario_promedio_y_total, df_ingresos_por_pasajeros_total, df_kilometros_y_pasajeros_por_dia, by = "nombre")
+```
+
+```{r}
+df_trenes_completo <-
+  left_join(df_trenes_completo, df_kilometros, df_personas_que_viajan_total, by = "nombre", relationship = "many-to-many") |>
+  na.omit()
+```
+
+```{r}
+df_trenes_completo <-
+  left_join(df_trenes_completo, df_trenes_y_poblacion, by = "nombre", relationship = "many-to-many") |>
+  na.omit()
+```

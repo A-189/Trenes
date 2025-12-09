@@ -1,0 +1,259 @@
+---
+title: "Analisis PCA"
+author: "A-189"
+date: "2025-12-08"
+output: html_document
+---
+
+
+
+## Ahora los normalizamos:
+
+```{r}
+df_normalizado_trenes_completo <- df_trenes_completo |>
+  mutate(across(where(is.numeric), scale))
+```
+
+
+## Ahora sacamos las variables de character [no nos tenemos que preocupar de ello, los agregaremos al finalizar el análisis PCA :)  ]
+
+```{r}
+df_pca_trenes_completo <- df_normalizado_trenes_completo |>
+  select(-nombre, -region.x, -clasificacion.x, -region.y, -clasificacion.y)
+```
+
+
+
+## Ahora aplicamos el PCA:
+
+```{r}
+df_pca_trenes_completo <- princomp(df_pca_trenes_completo)
+```
+
+
+
+## Ahora lo vemos en un summary:
+
+```{r}
+summary(df_pca_trenes_completo)
+```
+
+Hay muchos números, pero los que nos importan es ver cuáles componentes explican la mayor parte, así que veremos los primeros dos componentes:
+
+
+### Acá los podemos ver la carga que tiene cada variable a su componente:
+
+```{r}
+df_pca_trenes_completo$loadings[, 1:2]
+```
+
+
+## Ahora hacemos un scree plot para ver cómo es la varianza por cada componente principal:
+
+```{r fig.align='center'}
+fviz_eig(df_pca_trenes_completo, addlabels = TRUE,
+         barfill = "#990066",
+         barcolor = "#990066",
+         ncp = 10,
+         xlab = "Dimensiones",
+         ylab = "Porcentaje de la varianza explicada",
+         )
+```
+
+
+Podemos observar que efectivamente, el componente 1 explica una mayor parte de la varianza. Por lo que trabajaremos en base a ella.
+
+
+
+## Aquí el Biplot (aún no entiendo bien la lectura de este, pero lo dejo porsiacaso):
+
+```{r fig.align='center'}
+fviz_pca_biplot(df_pca_trenes_completo, 
+                col.var = "#990066",
+                col.ind = "grey60",
+                alpha.ind = 0.1,
+                label = "var",
+                repel = T)
+```
+
+
+
+
+## Ahora graficaremos las variables en relación a los Componentes 1 y 2:
+
+
+(Créditos al código de la profe, yo lo tomé y lo modifique en base a mis datos)
+
+
+### Paleta de colores:
+
+```{r}
+colores_scree <- c("#99cc33", "#3399cc", "#cc3399", "#ff9900", "#006699", "#ffcc00", "#990066")
+```
+
+
+
+
+### Gráfico distribución variables por Componente:
+
+
+**Primero lo categorizamos:**
+
+```{r}
+df_pca_2_rotation <- df_pca_trenes_completo_2 |> 
+  na.omit() |>
+  tidy(matrix = "rotation") |> 
+  pivot_wider(names_from = PC, 
+              names_prefix = "PC", 
+              values_from = value)
+
+df_pca_loadings <- df_pca_2_rotation |>
+  janitor::clean_names() |>
+  # Creamos las categorías
+  mutate(
+    categoria = case_when(
+      column %in% c(
+        "ingreso_por_transporte_de_pasajeros_regulares_en_miles_de_yenes.x",
+        "ingreso_por_transporte_de_pasajeros_regulares_en_miles_de_yenes.y",
+        "ingreso_por_transporte_de_pasajeros_no_regulares_en_miles_de_yenes.x",
+        "ingreso_por_transporte_de_pasajeros_no_regulares_en_miles_de_yenes.y",
+        "ingreso_por_transporte_de_pasajeros_en_total_en_miles_de_yenes.x",
+        "ingreso_por_transporte_de_pasajeros_en_total_en_miles_de_yenes.y",
+        "total_de_todos_los_ingresos_en_miles_de_yenes.x",
+        "total_de_todos_los_ingresos_en_miles_de_yenes.y"
+      ) ~ "Ingresos",
+      column %in% c(
+        "total_anual_en_salario_miles_de_yenes",
+        "cuanto_personal_tienen",
+        "salario_promedio_por_persona_mensual_estandar"
+      ) ~ "Gastos en Personal",
+      column %in% c(
+        "kilometros_comerciales_para_trenes_con_pasajeros",
+        "kilometros_recorridos_por_el_vehiculo_en_su_propia_linea_tren_de_pasajeros",
+        "total_tren_de_pasajeros_en_mil_kilometros_28"
+      ) ~ "Kilometraje",
+      column %in% c(
+        "poblacion",
+        "area",
+        "densidad_poblacional"
+      ) ~ "Datos Poblacionales",
+      column %in% c(
+        "tasa_de_pasajeros_en_tren_comparativa_a_otros_medios_en_porcentaje",
+        "tasa_de_movimiento_de_pasajeros_per_capita_por_ferrocarril_por_region"
+      ) ~ "Tasas de Pasajeros en Tren"
+    )
+  )
+
+df_pca_loadings |> 
+  select(column, pc1, pc2, categoria) |> 
+  head()
+```
+
+
+**Ahora lo graficamos:**
+
+```{r fig.align='center'}
+df_pca_loadings |> 
+  pivot_longer(names_to = "pca", values_to = "valor_pca", cols = c(pc1, pc2)) |> 
+  ggplot(aes(x = fct_reorder(column, valor_pca), y = valor_pca, fill = categoria)) +
+  geom_col() +
+  geom_hline(yintercept = 0) +
+  geom_text(aes(label = round(valor_pca, 2),
+                y = if_else(valor_pca >= 0, 
+                            valor_pca + 0.1*max(valor_pca), 
+                            0.1*max(valor_pca))), 
+            size = 2.5) +
+  scale_fill_manual(values = colores_scree) +
+  coord_flip() +
+  facet_grid(cols = vars(pca),
+             labeller = labeller(
+               pca = c(pc1 = "Componente 1 (59,2%)", pc2 = "Componente 2 (18.6%)")
+             )) +
+  labs(x = NULL,
+       y = "Puntajes") +
+  theme_linedraw() +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
+```
+
+
+Acá podemos ver que el Componente 1 explica balanceadamente la varianza en comparación al Componente 2.
+
+(no sé cómo hacer que se deje de repetir el nombre de las categorías de manera doble)
+
+
+
+
+
+
+
+
+
+
+
+## Ahora seguimos con el Análisis PCA:
+
+
+```{r}
+df_pca_trenes_completo_2 <- df_normalizado_trenes_completo |> 
+    select(-nombre, -region.x, -clasificacion.x, -region.y, -clasificacion.y) |>
+    prcomp()
+```
+
+
+```{r}
+df_pca_trenes_completo_2 |> 
+  broom::tidy(matrix = "eigenvalues") |> 
+  kable() |> 
+  head(n = 10)
+```
+
+
+```{r}
+df_pca_trenes_completo_2 |> 
+  broom::tidy(matrix = "rotation") |> 
+  kable() |> 
+  head(n = 10)
+```
+
+```{r eval=F}
+df_pca_trenes_completo_2 |>
+  broom::tidy(matrix = "scores") |> 
+  pivot_wider(names_from = "PC",
+              names_prefix = "PC_",
+              values_from = "value") |>
+  kable() |> 
+  scroll_box() 
+```
+
+
+
+## Ahora juntamos el Análisis PCA a nuestra base original:
+
+```{r}
+df_pca_2_cat <- df_pca_trenes_completo_2 |>
+  broom::tidy(matrix = "scores") |> 
+  pivot_wider(names_from = "PC",
+              names_prefix = "PC_",
+              values_from = "value") |> 
+  bind_cols(df_trenes_completo)
+```
+
+```{r}
+head(df_pca_2_cat)
+```
+
+
+
+
+## Ahora.... el momento que todos estabamos esperando..... LOS PREMIOS MEJORES TRENES DE JAPON !!!!! *aplausos
+
+Creamos el DF que ordenará de mayor a menor y de ahí veremos a los nominados:
+
+```{r}
+premios_trenes <- df_pca_2_cat |>
+  arrange(desc(PC_1))
+```
+
+
+Las nominaciones serán en el READ ME así que allí nos vemos !!  adios
